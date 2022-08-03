@@ -1,6 +1,17 @@
 var client_id = "1b61b5632176449fa09c6ec12f038a43"
 var client_secret = "13db13d5d60044168859bd6e1d84b833"
 var accessToken = ""
+var modalContentEl = document.getElementById("info-modal-content")
+var lyricmodalContentEl = document.getElementById("info-modal-content-lyrics")
+
+modalContentEl.innerHTML = "SPOTIFY URL LINK FOR FAVORITE SONGS"
+
+
+var artistName = "Disturbed"
+var songName = "Stricken"
+var songUrl = "https://api.lyrics.ovh/v1/" + artistName + "/" + songName;
+
+
 $.ajax({
     url: 'https://accounts.spotify.com/api/token',
     headers: {
@@ -36,3 +47,39 @@ function accessSpotify(searchTerm)
 setTimeout(function(){
     accessSpotify("genre")
 }, 500)
+
+$(document).ready(function(){
+    $('.modal').modal();
+})
+
+function toggleFavoriteModal(){
+    var instance = M.Modal.getInstance($('#favoriteModal'));
+    instance.open();
+}
+
+function toggleLyricModal(){
+    var instance = M.Modal.getInstance($('#lyricModal'));
+    instance.open();
+}
+var request = new XMLHttpRequest();
+
+request.open('GET', songUrl);
+
+request.onreadystatechange = function () {
+  if (this.readyState === 4) {
+    console.log('Status:', this.status);
+    console.log('Headers:', this.getAllResponseHeaders());
+    console.log('Body:', this.responseText);
+  }
+};
+
+request.send();
+
+fetch(songUrl)
+.then(function(responseLyrics){
+    return responseLyrics.json();
+})
+.then(function(data){
+    console.log(data)
+    lyricmodalContentEl = data;
+})
