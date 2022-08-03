@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <!--Material Icons-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
 
 </head>
 <body>
@@ -53,7 +54,6 @@
     <section class="container">
         <div class="lyrics center-align ">
             <a href="#" onclick="toggleLyricModal()" class="btn waves-effect waves-light grey darken-4" type="submit" name="action">Lyrics
-                <i class="material-icons right">grade</i>
             </a>
             <section class="infomodal">
                 <div id="lyricModal" class="modal">
@@ -61,7 +61,7 @@
                         <h4 id="info-modal-heading">
                             Lyrics
                         </h4>
-                        <p id="info-modal-content-lyrics"></p>
+                        <pre id="info-modal-content-lyrics"></pre>
                         <div class="modal-footer">
                             <a href="#" class="modal-close waves-effect btn-flat">Close</a>
                         </div>
