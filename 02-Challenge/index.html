@@ -7,7 +7,7 @@
     <title>Experimental Music</title>
 
     <!-- Materialize CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css%22%3E"
     <!-- Materialize Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
@@ -15,8 +15,8 @@
 <body>
     <header class="container">
       <nav class="grey darken-4">
-        <div class="nav-wrapper">
-            <a href="#" class="brand-logo">Experimental Music</a>
+        <div class="nav-wrapper valign center">
+            <a href="#" class="brand-logo center">Experimental Music</a>
         </div>
       </nav>
     </header>
@@ -29,20 +29,56 @@
         <div class="search">
             <input type="text" name="search" id="search" placeholder="Search Genre">
         </div>
-
-        <div class="favorites center-align">
-            <button class="btn waves-effect waves-light grey darken-4" type="submit" name="action">Favorites
+<div class="favorites center-align">
+            <a href="#" onclick="toggleFavoriteModal()" class="btn waves-effect waves-light grey darken-4" type="submit" name="action">Favorites
                 <i class="material-icons right">grade</i>
-            </button>     
+            </a>
+            <section class="infomodal">
+                <div id="favoriteModal" class="modal">
+                    <div class="modal-content">
+                        <h4 id="info-modal-heading">
+                            FAVORITES
+                        </h4>
+                        <p id="info-modal-content"></p>
+                        <div class="modal-footer">
+                            <a href="#" class="modal-close waves-effect btn-flat">Close</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
+
     </section>
 
-    <!-- Search Results -->
+    <section class="container">
+        <div class="lyrics center-align ">
+            <a href="#" onclick="toggleLyricModal()" class="btn waves-effect waves-light grey darken-4" type="submit" name="action">Lyrics
+                <i class="material-icons right">grade</i>
+            </a>
+            <section class="infomodal">
+                <div id="lyricModal" class="modal">
+                    <div class="modal-content">
+                        <h4 id="info-modal-heading">
+                            Lyrics
+                        </h4>
+                        <p id="info-modal-content-lyrics"></p>
+                        <div class="modal-footer">
+                            <a href="#" class="modal-close waves-effect btn-flat">Close</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </section>
+<!-- Search Results -->
     <section class="container">
         <ul id="search-results"></ul>
     </section>
-    
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js%22%3E</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js%22%3E</script>
     <script src="./js/script.js"></script>
+
+
 </body>
 </html>
