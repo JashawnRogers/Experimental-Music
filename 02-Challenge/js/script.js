@@ -3,15 +3,19 @@ var client_secret = "13db13d5d60044168859bd6e1d84b833"
 var accessToken = ""
 var modalContentEl = document.getElementById("info-modal-content")
 var lyricmodalContentEl = document.getElementById("info-modal-content-lyrics")
+var favButtonEl = document.getElementById("favoriteBtn")
+
 var userInput = $('#search')
 var searchResults = $('#search-results')
 var searchForm = $('#search-form')
 
 
 
-var artistName = "Disturbed"
-var songName = "Stricken"
-var songUrl = "https://api.lyrics.ovh/v1/" + artistName + "/" + songName;
+
+favButtonEl.addEventListener("click", function(){
+    console.log("clicked")
+})
+
 
 // Get access token from spotify
 $.ajax({
@@ -53,24 +57,72 @@ function accessSpotify(searchTerm)
             
             
             for(i = 0; i < response2.albums.items.length; i++){
-                var imgEl = response2.albums.items[i].images[0].url
-                var imgHeight = response2.albums.items[i].images[0].height
-                var imgWidth = response2.albums.items[i].images[0].width
-                var searchResult = document.createElement('li');
-                var searchImg = document.createElement('img')
-                searchImg.src=imgEl
-                searchImg.height = 50
-                searchImg.width = 50
-                console.log(searchImg)
-                searchResult.classList.add("center-align")
-                searchResult.textContent = response2.albums.items[i].artists[0].name + " - " + response2.albums.items[i].name;
-                searchResults.append(searchResult);
-                searchResult.append(searchImg);
+
                 
+                var imgEl = response2.albums.items[i].images[0].url
+
+                var searchResult = document.createElement('li');
+                if (response2.albums.items[i].album_type == "album"){
+                    searchResult.classList.add("hidden")
+                }
+                searchResult.setAttribute("songName", response2.albums.items[i].name)
+                searchResult.setAttribute("artistName", response2.albums.items[i].artists[0].name)
+                console.log(searchResult.attributes)
+                
+
+                searchResult.classList.add("center-align")
+                var searchImg = document.createElement('img')
+                var favButtonEl = document.createElement("button")
+                favButtonEl.classList.add("material-icons")
+                favButtonEl.innerHTML = "grade"
+
+                var lyricButtonEl = document.createElement("button")
+                lyricButtonEl.addEventListener("click", function(){
+                    console.log(this.parentElement.getAttribute("songName"))
+                    console.log(this.parentElement.getAttribute("artistName"))
+                })
+
+                
+                lyricButtonEl.addEventListener("click", toggleLyricModal)
+
+
+                lyricButtonEl.innerHTML = "Lyrics"
+
+                
+
+                searchImg.src = imgEl
+
+                searchImg.height = 50
+
+                searchImg.width = 50
+
+                searchResult.textContent = response2.albums.items[i].artists[0].name + " - " + response2.albums.items[i].name + " - " + response2.albums.items[i].album_type;
+
+                searchResults.append(searchResult);
+                searchResult.append(favButtonEl)
+                searchResult.append(lyricButtonEl)
+                searchResult.append(searchImg);
      
             }
             
 
+            
+
+
+            var artistName = response2.albums.items[0].artists[0].name
+            var songName = response2.albums.items[0].name;
+            
+            var songUrl = "https://api.lyrics.ovh/v1/" + artistName + "/" + songName;
+            console.log(songUrl)
+
+            fetch(songUrl)
+            .then(function(responseLyrics){
+            return responseLyrics.json();
+            }) 
+            .then(function(data){
+            console.log(data)
+            lyricmodalContentEl.innerHTML = data.lyrics
+            })
 
         }
     });
@@ -90,17 +142,11 @@ function toggleFavoriteModal(){
     instance.open();
 }
 
+
 function toggleLyricModal(){
     var instance = M.Modal.getInstance($('#lyricModal'));
     instance.open();
 }
 
-fetch(songUrl)
-.then(function(responseLyrics){
-    return responseLyrics.json();
-}) 
-.then(function(data){
-    console.log(data)
-    lyricmodalContentEl.innerHTML = data.lyrics
-})
+
 
