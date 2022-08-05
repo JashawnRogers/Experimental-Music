@@ -6,7 +6,7 @@ var lyricmodalContentEl = document.getElementById("info-modal-content-lyrics")
 var userInput = $('#search')
 var searchResults = $('#search-results')
 var searchForm = $('#search-form')
-modalContentEl.innerHTML = "SPOTIFY URL LINK FOR FAVORITE SONGS"
+
 
 
 var artistName = "Disturbed"
@@ -28,6 +28,7 @@ $.ajax({
     success: function (response) {
         console.log(response);
         accessToken = response.access_token
+
     }
 });
 
@@ -41,11 +42,36 @@ function accessSpotify(searchTerm)
         },
         data: {
             q: searchTerm,
-            type: 'album'
+            type: 'album',
+            album_type: 'single'
         },
         success: function (response2) {
             console.log(response2);
             // TODO: render results in div
+
+            modalContentEl.innerHTML = response2.albums.items[0].artists[0].name + "-" + response2.albums.items[0].name
+            
+            
+            for(i = 0; i < response2.albums.items.length; i++){
+                var imgEl = response2.albums.items[i].images[0].url
+                var imgHeight = response2.albums.items[i].images[0].height
+                var imgWidth = response2.albums.items[i].images[0].width
+                var searchResult = document.createElement('li');
+                var searchImg = document.createElement('img')
+                searchImg.src=imgEl
+                searchImg.height = 50
+                searchImg.width = 50
+                console.log(searchImg)
+                searchResult.classList.add("center-align")
+                searchResult.textContent = response2.albums.items[i].artists[0].name + " - " + response2.albums.items[i].name;
+                searchResults.append(searchResult);
+                searchResult.append(searchImg);
+                
+     
+            }
+            
+
+
         }
     });
 }
@@ -72,7 +98,6 @@ function toggleLyricModal(){
 fetch(songUrl)
 .then(function(responseLyrics){
     return responseLyrics.json();
-
 }) 
 .then(function(data){
     console.log(data)
