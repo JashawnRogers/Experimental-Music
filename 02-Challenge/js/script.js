@@ -4,6 +4,10 @@ var accessToken = ""
 var modalContentEl = document.getElementById("info-modal-content")
 var lyricmodalContentEl = document.getElementById("info-modal-content-lyrics")
 var favButtonEl = document.getElementById("favoriteBtn")
+var favButtonModalEl = document.getElementById("favoriteBtnModal")
+var favmodalContentEl = document.getElementById("info-modal-content")
+
+
 
 var userInput = $('#search')
 var searchResults = $('#search-results')
@@ -76,10 +80,42 @@ function accessSpotify(searchTerm)
                 favButtonEl.classList.add("material-icons")
                 favButtonEl.innerHTML = "grade"
 
+                favButtonEl.addEventListener("click", function(){
+                    var artistName = this.parentElement.getAttribute("artistName");
+                    var songName = this.parentElement.getAttribute("songName");
+
+                    localStorage.setItem("artistName", artistName)
+                    localStorage.setItem("songName", songName)
+
+                    console.log(localStorage.getItem("artistName"))
+                    console.log(localStorage.getItem("songName"))
+
+                    console.log(localStorage)
+                    favmodalContentEl.innerHTML = localStorage.getItem(artistName)
+                    favmodalContentEl.innerHTML = localStorage.getItem(localStorage)
+
+                    favmodalContentEl.innerHTML = localStorage.artistName + "   - " + localStorage.songName
+                })
+
                 var lyricButtonEl = document.createElement("button")
                 lyricButtonEl.addEventListener("click", function(){
                     console.log(this.parentElement.getAttribute("songName"))
                     console.log(this.parentElement.getAttribute("artistName"))
+
+                    var artistName = this.parentElement.getAttribute("artistName");
+                    var songName = this.parentElement.getAttribute("songName");
+            
+                    var songUrl = "https://api.lyrics.ovh/v1/" + artistName + "/" + songName;
+                    console.log(songUrl)
+
+                    fetch(songUrl)
+                    .then(function(responseLyrics){
+                    return responseLyrics.json();
+                    }) 
+                    .then(function(data){
+                    console.log(data)
+                    lyricmodalContentEl.innerHTML = data.lyrics
+                    })
                 })
 
                 
@@ -106,23 +142,8 @@ function accessSpotify(searchTerm)
             }
             
 
+        
             
-
-
-            var artistName = response2.albums.items[0].artists[0].name
-            var songName = response2.albums.items[0].name;
-            
-            var songUrl = "https://api.lyrics.ovh/v1/" + artistName + "/" + songName;
-            console.log(songUrl)
-
-            fetch(songUrl)
-            .then(function(responseLyrics){
-            return responseLyrics.json();
-            }) 
-            .then(function(data){
-            console.log(data)
-            lyricmodalContentEl.innerHTML = data.lyrics
-            })
 
         }
     });
@@ -147,6 +168,3 @@ function toggleLyricModal(){
     var instance = M.Modal.getInstance($('#lyricModal'));
     instance.open();
 }
-
-
-
