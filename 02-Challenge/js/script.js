@@ -3,18 +3,25 @@ var client_secret = "13db13d5d60044168859bd6e1d84b833"
 var accessToken = ""
 var modalContentEl = document.getElementById("info-modal-content")
 var lyricmodalContentEl = document.getElementById("info-modal-content-lyrics")
-var favButtonEl = document.getElementById("favoriteBtn")
-
+var favButtonEl = $(".favButton")
 var userInput = $('#search')
 var searchResults = $('#search-results')
 var searchForm = $('#search-form')
+var favoritesArr = []
+
+function displayFavorites() {
+    $("#info-modal-content").empty()
+    favoritesArr = JSON.parse(localStorage.getItem("favoriteSongs"))
+    favoritesArr.forEach(function(item){
+        var favoriteCardEl = document.createElement('li')
+        favoriteCardEl.textContent = item.song
+    $("#info-modal-content").append(favoriteCardEl)
+    })
+
+    
+} 
 
 
-
-
-favButtonEl.addEventListener("click", function(){
-    console.log("clicked")
-})
 
 
 // Get access token from spotify
@@ -50,19 +57,20 @@ function accessSpotify(searchTerm)
             album_type: 'single'
         },
         success: function (response2) {
-            console.log(response2);
+            // console.log(response2);
             // TODO: render results in div
 
-            modalContentEl.innerHTML = response2.albums.items[0].artists[0].name + "-" + response2.albums.items[0].name
+            // modalContentEl.innerHTML = response2.albums.items[0].artists[0].name + "-" + response2.albums.items[0].name
             
             
             for(i = 0; i < response2.albums.items.length; i++){
- 
+
+                
                 var imgEl = response2.albums.items[i].images[0].url
                 var searchResult = document.createElement('li');
                 var searchImg = document.createElement('img')
                 var searchResultText = document.createElement('p');
-                var favButtonEl = document.createElement("button")
+                var newfavButtonEl = document.createElement("button")
                 var lyricButtonEl = document.createElement('button')
 
                 
@@ -70,11 +78,13 @@ function accessSpotify(searchTerm)
                     searchResult.classList.add("hidden")
                 }
 
-                favButtonEl.classList.add("material-icons")
-                favButtonEl.classList.add('btn')
-                favButtonEl.classList.add('btnStyle')
-                favButtonEl.classList.add('grey')
-                favButtonEl.classList.add('darken-4')
+
+                newfavButtonEl.classList.add("material-icons")
+                newfavButtonEl.classList.add('btn')
+                newfavButtonEl.classList.add('btnStyle')
+                newfavButtonEl.classList.add('grey')
+                newfavButtonEl.classList.add('favButton')
+                newfavButtonEl.classList.add('darken-4')
                 lyricButtonEl.classList.add('btnStyle')
                 lyricButtonEl.classList.add('btn')
                 lyricButtonEl.classList.add('grey')
@@ -84,27 +94,29 @@ function accessSpotify(searchTerm)
                 searchImg.classList.add('songImg');
                 searchResult.setAttribute("songName", response2.albums.items[i].name)
                 searchResult.setAttribute("artistName", response2.albums.items[i].artists[0].name)
-                console.log(searchResult.attributes)
+                // console.log(searchResult.attributes)
                 
 
                
-                favButtonEl.innerHTML = "grade"
+                newfavButtonEl.innerHTML = "grade"
                 searchImg.src= imgEl
-                console.log(searchImg)
+                // console.log(searchImg)
                 lyricButtonEl.innerHTML = 'Lyrics';
                 searchResultText.innerHTML = response2.albums.items[i].artists[0].name + " - " + response2.albums.items[i].name;
 
                 
                 lyricButtonEl.addEventListener("click", toggleLyricModal)
-                favButtonEl.addEventListener("click", toggleFavoriteModal)
+                // newfavButtonEl.addEventListener("click", toggleFavoriteModal)
 
                 // searchResult.textContent = response2.albums.items[i].artists[0].name + " - " + response2.albums.items[i].name + " - " + response2.albums.items[i].album_type;
 
                 searchResult.append(searchResultText);
                 searchResults.append(searchResult);
-                searchResult.append(favButtonEl);
+                searchResult.append(newfavButtonEl);
                 searchResult.append(lyricButtonEl);
                 searchResult.append(searchImg);
+
+                
 
     
                 lyricButtonEl.addEventListener("click", function(){
@@ -132,6 +144,22 @@ function accessSpotify(searchTerm)
     });
 }
 
+function addToFavorites(name, artist) {
+                   
+    // favoritesArr = JSON.parse(localStorage.getItem("favoriteSongs"))
+    var favoriteItem =  {
+        song: name,
+        musician: artist
+    }
+
+
+    favoritesArr.push(favoriteItem);
+    localStorage.setItem("favoriteSongs" ,JSON.stringify(favoritesArr));
+    
+//   displayFavorites();
+}
+
+
 searchForm.on("submit", function(e) {
     e.preventDefault();
     accessSpotify(userInput.val())
@@ -144,7 +172,9 @@ $(document).ready(function(){
 function toggleFavoriteModal(){
     var instance = M.Modal.getInstance($('#favoriteModal'));
     instance.open();
+    displayFavorites();
 }
+
 
 
 function toggleLyricModal(){
@@ -153,4 +183,11 @@ function toggleLyricModal(){
 }
 
 
+$(document).on("click", ".favButton", function(event){
+    var songName = this.parentElement.getAttribute("songname");
+    var artistName = this.parentElement.getAttribute("artistname");
 
+    addToFavorites(songName, artistName);
+
+    toggleFavoriteModal();
+})
