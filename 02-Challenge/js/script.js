@@ -57,72 +57,76 @@ function accessSpotify(searchTerm)
             
             
             for(i = 0; i < response2.albums.items.length; i++){
+ 
+                var imgEl = response2.albums.items[i].images[0].url
+                var searchResult = document.createElement('li');
+                var searchImg = document.createElement('img')
+                var searchResultText = document.createElement('p');
+                var favButtonEl = document.createElement("button")
+                var lyricButtonEl = document.createElement('button')
 
                 
-                var imgEl = response2.albums.items[i].images[0].url
-
-                var searchResult = document.createElement('li');
                 if (response2.albums.items[i].album_type == "album"){
                     searchResult.classList.add("hidden")
                 }
+
+                favButtonEl.classList.add("material-icons")
+                favButtonEl.classList.add('btn')
+                favButtonEl.classList.add('btnStyle')
+                favButtonEl.classList.add('grey')
+                favButtonEl.classList.add('darken-4')
+                lyricButtonEl.classList.add('btnStyle')
+                lyricButtonEl.classList.add('btn')
+                lyricButtonEl.classList.add('grey')
+                lyricButtonEl.classList.add('darken-4')
+                searchResultText.classList.add("center-align");
+                searchResult.classList.add('collection-item');
+                searchImg.classList.add('songImg');
                 searchResult.setAttribute("songName", response2.albums.items[i].name)
                 searchResult.setAttribute("artistName", response2.albums.items[i].artists[0].name)
                 console.log(searchResult.attributes)
                 
 
-                searchResult.classList.add("center-align")
-                var searchImg = document.createElement('img')
-                var favButtonEl = document.createElement("button")
-                favButtonEl.classList.add("material-icons")
+               
                 favButtonEl.innerHTML = "grade"
-
-                var lyricButtonEl = document.createElement("button")
-                lyricButtonEl.addEventListener("click", function(){
-                    console.log(this.parentElement.getAttribute("songName"))
-                    console.log(this.parentElement.getAttribute("artistName"))
-                })
+                searchImg.src= imgEl
+                console.log(searchImg)
+                lyricButtonEl.innerHTML = 'Lyrics';
+                searchResultText.innerHTML = response2.albums.items[i].artists[0].name + " - " + response2.albums.items[i].name;
 
                 
                 lyricButtonEl.addEventListener("click", toggleLyricModal)
+                favButtonEl.addEventListener("click", toggleFavoriteModal)
 
+                // searchResult.textContent = response2.albums.items[i].artists[0].name + " - " + response2.albums.items[i].name + " - " + response2.albums.items[i].album_type;
 
-                lyricButtonEl.innerHTML = "Lyrics"
-
-                
-
-                searchImg.src = imgEl
-
-                searchImg.height = 50
-
-                searchImg.width = 50
-
-                searchResult.textContent = response2.albums.items[i].artists[0].name + " - " + response2.albums.items[i].name + " - " + response2.albums.items[i].album_type;
-
+                searchResult.append(searchResultText);
                 searchResults.append(searchResult);
-                searchResult.append(favButtonEl)
-                searchResult.append(lyricButtonEl)
+                searchResult.append(favButtonEl);
+                searchResult.append(lyricButtonEl);
                 searchResult.append(searchImg);
-     
+
+    
+                lyricButtonEl.addEventListener("click", function(){
+                    console.log(this.parentElement.getAttribute("songName"))
+                    console.log(this.parentElement.getAttribute("artistName"))
+    
+                    var artistName = this.parentElement.getAttribute("artistName");
+                    var songName = this.parentElement.getAttribute("songName");
+            
+                    var songUrl = "https://api.lyrics.ovh/v1/" + artistName + "/" + songName;
+                    console.log(songUrl)
+    
+                    fetch(songUrl)
+                    .then(function(responseLyrics){
+                    return responseLyrics.json();
+                    }) 
+                    .then(function(data){
+                    console.log(data)
+                    lyricmodalContentEl.innerHTML = data.lyrics
+                    })
+                })
             }
-            
-
-            
-
-
-            var artistName = response2.albums.items[0].artists[0].name
-            var songName = response2.albums.items[0].name;
-            
-            var songUrl = "https://api.lyrics.ovh/v1/" + artistName + "/" + songName;
-            console.log(songUrl)
-
-            fetch(songUrl)
-            .then(function(responseLyrics){
-            return responseLyrics.json();
-            }) 
-            .then(function(data){
-            console.log(data)
-            lyricmodalContentEl.innerHTML = data.lyrics
-            })
 
         }
     });

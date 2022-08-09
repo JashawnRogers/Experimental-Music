@@ -11,3 +11,18 @@
 .hidden{
     display: none; 
 }
+
+.songImg, .searchResultText {
+    height: 125px;
+    width: 125px;
+    margin: 20px;
+}
+
+.searchResultText {
+    text-align: center;
+}
+
+.btnStyle {
+    float: right;
+    margin: 20px;
+}
