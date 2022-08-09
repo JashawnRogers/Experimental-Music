@@ -21,9 +21,6 @@ function displayFavorites() {
     
 } 
 
-
-
-
 // Get access token from spotify
 $.ajax({
     url: 'https://accounts.spotify.com/api/token',
