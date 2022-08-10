@@ -17,8 +17,10 @@ We wanted to find the option to be able to find new music and this is the soluti
 
 * You can also favorite it so if you have to refresh for whatever reason you can still have the songs that you liked from the previous visit! All you have to do is press favorites and it will pop up the song name!
 
-
+* Technology Used: JQuery, Vanilla JS, Materialize CSS, HTML
 
 **Live Page: https://jashawnrogers.github.io/Experimental-Music/**
 
 ![](../Images/HomePage.PNG)![](../Images/SearchPage.PNG)![](../Images/FavoritesPage.PNG)![](../Images/LyricPage.PNG)
+
+
