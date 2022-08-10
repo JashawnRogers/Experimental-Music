@@ -1,7 +1,7 @@
 
 ---
 
-# EXPERIMENTAL MUSIC
+# EXPERIMENTAL MUSIC - Jashawn Rogers, Trey Bach
 
      AS A music enthusiast
      I want new music to try out.
@@ -21,8 +21,4 @@ We wanted to find the option to be able to find new music and this is the soluti
 
 **Live Page: https://jashawnrogers.github.io/Experimental-Music/**
 
-
-![](Images/HomePage.PNG)
-![](Images/SearchPage.PNG)
-![](Images/LyricPage.PNG)
-![](Images/FavoritesPage.PNG)
+![](../Images/HomePage.PNG)![](../Images/SearchPage.PNG)![](../Images/FavoritesPage.PNG)![](../Images/LyricPage.PNG)
