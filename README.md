@@ -9,6 +9,7 @@
 
 We wanted to find the option to be able to find new music and this is the solution that Jashawn and Trey came up with.
 
+
 * All you have to do is simply look up a keyword that you like for any song in the search bar in the HomePage Picture.
 
 * Then you would simply search and you would get such results.
@@ -19,8 +20,8 @@ We wanted to find the option to be able to find new music and this is the soluti
 
 * Technology Used: JQuery, Vanilla JS, Materialize CSS, HTML
 
+
 **Live Page: https://jashawnrogers.github.io/Experimental-Music/**
 
 ![](../Images/HomePage.PNG)![](../Images/SearchPage.PNG)![](../Images/FavoritesPage.PNG)![](../Images/LyricPage.PNG)
-
 
