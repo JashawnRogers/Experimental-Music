@@ -25,3 +25,11 @@ We wanted to find the option to be able to find new music and this is the soluti
 
 ![](../Images/HomePage.PNG)![](../Images/SearchPage.PNG)![](../Images/FavoritesPage.PNG)![](../Images/LyricPage.PNG)
 
+If you look in the Images-Homepage picture you will see that we have the basic minimalistic homepage that materialize provides.
+
+In the next page with you will see the search result that pull up songs from the search input.
+
+In the Favorites Page you will see if you click a star you have your local storage pull your favorite songs from searches.
+
+Finally in the lyrics image you see that there is a lyric modal that has the song lyrics.
+
